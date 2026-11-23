@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Resource Management</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="script.js" defer></script>
+</head>
+
+    <body>
+
+<section id="authSection" class="auth-section">
+
+<div class="auth-left auth-slideshow">
+
+    <div class="brand light-brand">
+        <i class="fa-solid fa-building-columns"></i>
+        <span>Campus</span>
+    </div>
+
+    <div class="login-slideshow" id="loginSlideshow">
+
+        <div class="login-slide active">
+            <img src="images/campus.png"
+                 alt="University campus">
+        </div>
+
+        <div class="login-slide">
+            <img src="images/library.png"
+                 alt="University library">
+        </div>
+
+        <div class="login-slide">
+            <img src="images/lab.png"
+                 alt="Research laboratory">
+        </div>
+
+    </div>
+
+    <div class="login-caption">
+        <h2>A Better Way to Manage Your Campus.</h2>
+
+        <p>
+            Explore campus resources, book laboratories and facilities,
+            and manage all your requests easily.
+        </p>
+    </div>
+
+    <div class="slide-dots">
+
+        <button class="login-slide-dot active"
+            onclick="showLoginSlide(0)"
+            aria-label="Campus photo"></button>
+
+        <button class="login-slide-dot"
+            onclick="showLoginSlide(1)"
+            aria-label="Library photo"></button>
+
+        <button class="login-slide-dot"
+            onclick="showLoginSlide(2)"
+            aria-label="Laboratory photo"></button>
+
+    </div>
+
+</div>
+
+</div>
+
+    <div class="auth-right">
+        <div class="auth-card">
+
+            <h2 >Welcome!</h2>
+            <p id="authSubtitle">Sign in to access your campus dashboard.</p>
+
+            <div class="role-selector">
+                <button type="button" id="studentRole" class="active" onclick="setRole('student')">
+                    <i class="fa-solid fa-user-graduate"></i> Student
+                </button>
+
+                <button type="button" id="adminRole" onclick="setRole('admin')">
+                    <i class="fa-solid fa-user-shield"></i> Administrator
+                </button>
+            </div>
+
+            <form id="authForm">
+
+                <div class="form-group hidden" id="nameGroup">
+                    <label for="authName">Full Name</label>
+                    <input type="text" id="authName" placeholder="Enter full name">
+                </div>
+
+                <div class="form-group hidden" id="studentIdGroup">
+                    <label for="authStudentId">Student ID</label>
+                    <input type="text" id="authStudentId" placeholder="Enter student ID">
+                </div>
+
+                <div class="form-group">
+                    <label for="authEmail" id="authEmailLabel">Email Address</label>
+                    <input type="text" id="authEmail" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit" id="authSubmit">
+                    Sign In <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <p id="authMessage"></p>
+            </form>
+
+            <div class="auth-switch" id="authSwitch">
+                Don't have an account?
+                <button type="button" onclick="setAuthMode('register')">Create Account</button>
+            </div><br>
+
+             <div class="demo-info">
+
+                <p>
+                    
+                    <strong>Student demo:</strong>
+                    student@campus.edu / student123
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="appSection" class="app-section hidden">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+                <h2>Campus</h2>
+                <span>Resource Management</span>
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="avatar" id="sidebarAvatar">A</div>
+            <div>
+                <h4 id="sidebarName">Administrator</h4>
+                <p id="sidebarRole">Admin</p>
+            </div>
+        </div>
+
+        <div id="adminNavigation">
+
+            <p class="sidebar-heading">ADMINISTRATION</p>
+
+            <nav class="nav-menu">
+                <a class="nav-link active" data-page="dashboard" onclick="navigate('dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a class="nav-link" data-page="resources" onclick="navigate('resources')">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Manage Resources</span>
+                </a>
+
+                <a class="nav-link" data-page="bookings" onclick="navigate('bookings')">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Manage Bookings</span>
+                </a>
+<a class="nav-link" data-page="students" onclick="navigate('students')">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Manage Students</span>
+                </a>
+            </nav>
+        </div>
+
+        <div id="studentNavigation" class="hidden">
+
+            <p class="sidebar-heading">STUDENT MENU</p>
+
+            <nav class="nav-menu">
+                <a class="nav-link active" data-page="studentDashboard" onclick="navigate('studentDashboard')">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a class="nav-link" data-page="browse" onclick="navigate('browse')">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Browse Resources</span>
+                </a>
+<a class="nav-link" data-page="myBookings" onclick="navigate('myBookings')">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>My Bookings</span>
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <button class="logout-btn" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1 id="topbarTitle">Dashboard</h1>
+                <p id="topbarSubtitle">Welcome to Campus Resource Management.</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="topbar-date">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span id="currentDate"></span>
+                </div>
+
+                <button class="topbar-icon" onclick="showToast('You are all caught up!')">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+
+                <div class="topbar-profile">
+                    <div class="avatar" id="topAvatar">A</div>
+                    <div>
+                        <h4 id="topName">Administrator</h4>
+                        <p id="topRole">Admin</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="page-dashboard" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Dashboard Overview</h1>
+                    <p>Monitor your campus resources and activities.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                    <h4>Total Resources</h4>
+                    <h2 id="totalResources">0</h2>
+                    <span>Registered facilities</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h4>Total Bookings</h4>
+                    <h2 id="totalBookings">0</h2>
+                    <span>All booking requests</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
+                    <h4>Pending Requests</h4>
+                    <h2 id="pendingBookings">0</h2>
+                    <span>Awaiting approval</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+                    <h4>Total Students</h4>
+                    <h2 id="totalStudents">0</h2>
+                    <span>Registered accounts</span>
+                </div>
+</div>
+
+        </section>
+
+        <section id="page-resources" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Resources</h1>
+                    <p>Add, update and remove campus facilities.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openResourceForm()">
+                    <i class="fa-solid fa-plus"></i> Add New Resource
+                </button>
+            </div>
+
+            <div class="resource-toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="adminResourceSearch"
+                        placeholder="Search resources..." oninput="renderResources()">
+                </div>
+
+                <select id="adminCategoryFilter" class="filter-select" onchange="renderResources()">
+                    <option value="">All</option>
+                    <option value="Laboratory">Laboratory</option>
+                    <option value="Classroom">Classroom</option>
+                    <option value="Auditorium">Auditorium</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Library">Library</option>
+                    <option value="Equipment">Equipment</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div id="resourceFormPanel" class="resource-form-panel hidden">
+
+                <div class="content-card-header">
+                    <h3 id="resourceFormTitle">Add New Resource</h3>
+                    <button class="icon-close" onclick="closeResourceForm()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form id="resourceForm">
+                    <input type="hidden" id="resourceEditId">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="resourceName">Resource Name *</label>
+                            <input type="text" id="resourceName" placeholder="Enter resource name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="resourceCategory">Category *</label>
+                            <select id="resourceCategory" required>
+                                <option value="">Select</option>
+                                <option value="Laboratory">Laboratory</option>
+                                <option value="Classroom">Classroom</option>
+                                <option value="Auditorium">Auditorium</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Library">Library</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="resourceLocation">Location *</label>
+                            <input type="text" id="resourceLocation" placeholder="Block / Room" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="resourceCapacity">Capacity *</label>
+                            <input type="number" id="resourceCapacity" min="1" placeholder="Enter capacity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourceStatus">Resource Status *</label>
+                            <select id="resourceStatus" required>
+                              <option value="Available">Available</option>
+                              <option value="Not Available">Not Available</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resourceDescription">Description</label>
+                        <textarea id="resourceDescription" placeholder="Describe this facility"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Save Resource</button>
+                        <button type="button" class="secondary-btn" onclick="closeResourceForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="resource-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Resource ID</th>
+                            <th>Resource Name</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Capacity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminResourceList"></tbody>
+                </table>
+
+                <div id="resourceEmpty" class="empty-state hidden">
+                    <i class="fa-solid fa-building-circle-xmark"></i>
+                    <h3>No resources found</h3>
+                    <p>Try another search or add a resource.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="page-bookings" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Bookings</h1>
+                    <p>Review and manage student facility booking requests.</p>
+                </div>
+            </div>
+
+            <div class="resource-toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="adminBookingSearch"
+                        placeholder="Search bookings..." oninput="renderAdminBookings()">
+                </div>
+
+                <select class="filter-select" id="bookingStatusFilter" onchange="renderAdminBookings()">
+                    <option value="">Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="resource-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Student</th>
+                            <th>Resource</th>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookingList"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section id="page-students" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Students</h1>
+                    <p>View registered student accounts.</p>
+                </div>
+            </div>
+
+            <div class="resource-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Email Address</th>
+                            <th>Account Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentList"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section id="page-studentDashboard" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Welcome, <span id="welcomeStudent">Student</span>!</h1>
+                    <p>Manage your campus facilities.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                    <h4>Available Resources</h4>
+                    <h2 id="studentResourceCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h4>My Bookings</h4>
+                    <h2 id="studentBookingCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
+                    <h4>Pending Requests</h4>
+                    <h2 id="studentPendingCount">0</h2>
+                </div>
+</div>
+
+            <div class="content-card">
+                <div class="content-card-header">
+                    <h3>Recently Added Resources</h3>
+                    <button class="text-btn" onclick="navigate('browse')">Browse All</button>
+                </div>
+                <div id="studentFeaturedResources" class="resource-grid"></div>
+            </div>
+
+        </section>
+
+        <section id="page-browse" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>Browse Resources</h1>
+                    <p>Find and book available campus facilities.</p>
+                </div>
+            </div>
+
+            <div class="resource-toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="studentResourceSearch"
+                        placeholder="Search resources..." oninput="renderStudentResources()">
+                </div>
+
+                <select id="studentCategoryFilter" class="filter-select"
+                    onchange="renderStudentResources()">
+                    <option value="">All Categories</option>
+                    <option value="Laboratory">Laboratory</option>
+                    <option value="Classroom">Classroom</option>
+                    <option value="Auditorium">Auditorium</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Library">Library</option>
+                    <option value="Equipment">Equipment</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div id="studentResourceList" class="resource-grid"></div>
+
+        </section>
+
+        <section id="page-myBookings" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <h1>My Bookings</h1>
+                    <p>Track your campus facility booking requests.</p>
+                </div>
+            </div>
+
+            <div class="resource-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Resource</th>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myBookingList"></tbody>
+                </table>
+            </div>
+
+        </section>
+</main>
+</section>
+
+<div id="bookingModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Book Campus Resource</h3>
+            <button class="modal-close" onclick="closeBookingModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="bookingForm">
+            <input type="hidden" id="bookingResourceId">
+
+            <div class="form-group">
+                <label for="bookingResourceName">Selected Resource</label>
+                <input type="text" id="bookingResourceName" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="bookingDate">Booking Date *</label>
+                <input type="date" id="bookingDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bookingTime">Time Slot *</label>
+                <select id="bookingTime" required>
+                    <option value="">Select Time Slot</option>
+                    <option>09:00 AM - 10:00 AM</option>
+                    <option>10:00 AM - 11:00 AM</option>
+                    <option>11:00 AM - 12:00 PM</option>
+                    <option>12:00 PM - 01:00 PM</option>
+                    <option>02:00 PM - 03:00 PM</option>
+                    <option>03:00 PM - 04:00 PM</option>
+                    <option>04:00 PM - 05:00 PM</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bookingPurpose">Purpose of Booking</label>
+                <textarea id="bookingPurpose" required
+                    placeholder="Enter booking purpose"></textarea>
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Submit Booking Request
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+</body>
+</html>
